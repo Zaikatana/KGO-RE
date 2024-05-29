@@ -1,0 +1,157 @@
+.text:001A7CF0 DecryptionSecondPass proc near          ; CODE XREF: .text:001A92CE↓p
+.text:001A7CF0
+.text:001A7CF0 arg_0           = dword ptr  8
+.text:001A7CF0 arg_4           = dword ptr  0Ch
+.text:001A7CF0 arg_8           = dword ptr  10h
+.text:001A7CF0
+.text:001A7CF0                 push    ebp
+.text:001A7CF1                 mov     ebp, esp
+.text:001A7CF3                 push    esi
+.text:001A7CF4                 mov     esi, ecx
+.text:001A7CF6                 mov     ecx, [ebp+arg_8]
+.text:001A7CF9                 cmp     ecx, 2
+.text:001A7CFC                 jle     loc_1A7E15
+.text:001A7D02                 mov     eax, [esi+4]
+.text:001A7D05                 add     eax, 2
+.text:001A7D08                 cmp     ecx, eax
+.text:001A7D0A                 jg      loc_1A7E15
+.text:001A7D10                 cmp     byte ptr [esi], 0
+.text:001A7D13                 jz      loc_1A7E15
+.text:001A7D19                 cmp     byte ptr [esi+1], 0
+.text:001A7D1D                 jnz     loc_1A7E15
+.text:001A7D23                 lea     eax, [ecx-2]
+.text:001A7D26                 mov     byte ptr [esi+1], 1
+.text:001A7D2A                 mov     ecx, [ebp+arg_0]
+.text:001A7D2D                 push    ebx
+.text:001A7D2E                 mov     [esi+18h], eax
+.text:001A7D31                 push    edi
+.text:001A7D32                 lea     eax, [ecx+2]
+.text:001A7D35                 mov     [esi+8], eax
+.text:001A7D38                 movzx   eax, byte ptr [ecx+1]
+.text:001A7D3C                 shl     ax, 8
+.text:001A7D40                 push    400h
+.text:001A7D45                 movzx   ebx, ax
+.text:001A7D48                 movzx   eax, byte ptr [ecx]
+.text:001A7D4B                 push    0
+.text:001A7D4D                 push    dword ptr [esi+10h]
+.text:001A7D50                 or      ebx, eax
+.text:001A7D52                 db 0E8h                 ; func(size, val, pointer)
+.text:001A7D52                                         ;
+.text:001A7D52                                         ; sets values in pointer to val for length size
+.text:001A7D52 ; ---------------------------------------------------------------------------
+.text:001A7D53                 db 0B9h
+.text:001A7D54                 db  20h
+.text:001A7D55                 db  16h
+.text:001A7D56                 db    0
+.text:001A7D57                 db  8Bh
+.text:001A7D58                 push    esi
+.text:001A7D58 ; ---------------------------------------------------------------------------
+.text:001A7D59                 db    8
+.text:001A7D5A ; ---------------------------------------------------------------------------
+.text:001A7D5A                 xor     edi, edi
+.text:001A7D5C                 add     esp, 0Ch
+.text:001A7D5F                 cmp     [esi+18h], edi
+.text:001A7D62                 jle     short loc_1A7D76 ; move ??? pointer into eax (most likely hash table)
+.text:001A7D64 loc_1A7D64      db  0Fh                 ; CODE XREF: DecryptionSecondPass+84↓j
+.text:001A7D64                                         ; move decrypted (first pass) byte to ecx
+.text:001A7D65                 db 0B6h                 ; Trap to Debugger
+.text:001A7D65 ; ---------------------------------------------------------------------------
+.text:001A7D66                 db  0Ah
+.text:001A7D67 ; ---------------------------------------------------------------------------
+.text:001A7D67                 lea     edx, [edx+1]
+.text:001A7D6A                 mov     eax, [esi+10h]
+.text:001A7D6D                 inc     edi
+.text:001A7D6E                 inc     dword ptr [eax+ecx*4]
+.text:001A7D71                 cmp     edi, [esi+18h]
+.text:001A7D74                 jl      short loc_1A7D64 ; move decrypted (first pass) byte to ecx
+.text:001A7D76 loc_1A7D76      db  8Bh                 ; CODE XREF: DecryptionSecondPass+72↑j
+.text:001A7D76                                         ; move ??? pointer into eax (most likely hash table)
+.text:001A7D76 ; ---------------------------------------------------------------------------
+.text:001A7D78                 db  10h
+.text:001A7D79                 db 0BAh
+.text:001A7D7A                 add     al, 0
+.text:001A7D7A ; ---------------------------------------------------------------------------
+.text:001A7D7C                 db    0
+.text:001A7D7D                 db    0
+.text:001A7D7E                 mov     ecx, [eax]      ; move first value of hash table to ecx
+.text:001A7D80                 mov     eax, [esi+0Ch]
+.text:001A7D83                 lea     ecx, [eax+ecx*4]
+.text:001A7D86                 mov     eax, [esi+14h]
+.text:001A7D89                 mov     [eax], ecx
+.text:001A7D8B                 jmp     short loc_1A7D90
+.text:001A7D8B ; ---------------------------------------------------------------------------
+.text:001A7D8D                 db  8Dh
+.text:001A7D8E                 db  49h ; I
+.text:001A7D8F                 db    0
+.text:001A7D90 ; ---------------------------------------------------------------------------
+.text:001A7D90
+.text:001A7D90 loc_1A7D90:                             ; CODE XREF: DecryptionSecondPass+9B↑j
+.text:001A7D90                                         ; DecryptionSecondPass+C5↓j
+.text:001A7D90                 mov     ecx, [esi+10h]
+.text:001A7D93                 mov     eax, [ecx+edx-4]
+.text:001A7D97                 add     [ecx+edx], eax
+.text:001A7D9A                 mov     eax, [esi+10h]
+.text:001A7D9D                 mov     ecx, [edx+eax]
+.text:001A7DA0                 mov     eax, [esi+0Ch]
+.text:001A7DA3                 lea     ecx, [eax+ecx*4]
+.text:001A7DA6                 mov     eax, [esi+14h]
+.text:001A7DA9                 mov     [edx+eax], ecx
+.text:001A7DAC                 add     edx, 4
+.text:001A7DAF                 cmp     edx, 400h
+.text:001A7DB5                 jl      short loc_1A7D90
+.text:001A7DB7                 mov     ecx, [esi+18h]
+.text:001A7DBA                 mov     edi, [esi+8]
+.text:001A7DBD                 dec     edi
+.text:001A7DBE                 add     edi, ecx
+.text:001A7DC0                 lea     edx, [ecx-1]
+.text:001A7DC3                 test    edx, edx
+.text:001A7DC5                 js      short loc_1A7DDC
+.text:001A7DC7
+.text:001A7DC7 loc_1A7DC7:                             ; CODE XREF: DecryptionSecondPass+EA↓j
+.text:001A7DC7                 movzx   ecx, byte ptr [edi]
+.text:001A7DCA                 lea     edi, [edi-1]
+.text:001A7DCD                 mov     eax, [esi+14h]
+.text:001A7DD0                 add     dword ptr [eax+ecx*4], 0FFFFFFFCh
+.text:001A7DD4                 mov     eax, [eax+ecx*4]
+.text:001A7DD7                 mov     [eax], edx
+.text:001A7DD9                 dec     edx
+.text:001A7DDA                 jns     short loc_1A7DC7
+.text:001A7DDC
+.text:001A7DDC loc_1A7DDC:                             ; CODE XREF: DecryptionSecondPass+D5↑j
+.text:001A7DDC                 mov     eax, [esi+0Ch]
+.text:001A7DDF                 xor     edi, edi
+.text:001A7DE1                 mov     edx, [ebp+arg_4]
+.text:001A7DE4                 mov     ecx, [eax+ebx*4]
+.text:001A7DE7                 db  39h ; 9
+.text:001A7DE8                 jle     short near ptr unk_1A7E02
+.text:001A7DEA                 jle     short loc_1A7E08
+.text:001A7DEC                 lea     esp, [esp+0]
+.text:001A7DF0 loc_1A7DF0      db  8Bh                 ; CODE XREF: DecryptionSecondPass+116↓j
+.text:001A7DF0                                         ; mov eax, [ebp+arg_0+2] //pointer to decompressed data + 2
+.text:001A7DF1                 inc     esi
+.text:001A7DF1 ; ---------------------------------------------------------------------------
+.text:001A7DF2                 db    8
+.text:001A7DF3 ; ---------------------------------------------------------------------------
+.text:001A7DF3                 db  8Dh                 ; mov edx, pointer to decrypted data
+.text:001A7DF3 ; ---------------------------------------------------------------------------
+.text:001A7DF5                 db    1
+.text:001A7DF6                 inc     edi             ; increment curr idx of decrypted data
+.text:001A7DF7                 db  8Ah                 ; mov al, [eax+ecx]
+.text:001A7DF7 ; ---------------------------------------------------------------------------
+.text:001A7DF9                 db    1
+.text:001A7DFA                 db  88h                 ; mov [edx], al
+.text:001A7DFB                 db  42h ; B             ; used by BASIC while in interpreter
+.text:001A7DFD                 db  8Bh                 ; mov eax, ????
+.text:001A7DFD ; ---------------------------------------------------------------------------
+.text:001A7DFF                 db  0Ch
+.text:001A7E00                 db  8Bh                 ; mov ecx, [EAX + ECX * 4]
+.text:001A7E00 ; ---------------------------------------------------------------------------
+.text:001A7E02 unk_1A7E02      db  88h                 ; CODE XREF: DecryptionSecondPass+F8↑j
+.text:001A7E03                 cmp     edi, [esi+18h]
+.text:001A7E06                 jl      short loc_1A7DF0 ; mov eax, [ebp+arg_0+2] //pointer to decompressed data + 2
+.text:001A7E08
+.text:001A7E08 loc_1A7E08:                             ; CODE XREF: DecryptionSecondPass+FA↑j
+.text:001A7E08                 pop     edi
+.text:001A7E09                 pop     ebx
+.text:001A7E0A                 mov     byte ptr [esi+1], 0
+.text:001A7E0E                 mov     al, 1

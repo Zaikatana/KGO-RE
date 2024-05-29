@@ -1,0 +1,66 @@
+.text:001A7E20 DecryptionFirstPass proc near           ; CODE XREF: .text:001A92B5↓p
+.text:001A7E20
+.text:001A7E20 arg_0           = dword ptr  8
+.text:001A7E20 arg_4           = dword ptr  0Ch
+.text:001A7E20
+.text:001A7E20                 push    ebp
+.text:001A7E21                 mov     ebp, esp
+.text:001A7E23                 push    esi
+.text:001A7E24                 mov     esi, [ebp+arg_4]
+.text:001A7E27                 push    edi
+.text:001A7E28                 mov     edi, ecx
+.text:001A7E2A                 cmp     esi, 1
+.text:001A7E2D                 jl      short loc_1A7E78
+.text:001A7E2F                 cmp     byte ptr [edi], 0
+.text:001A7E32                 jz      short loc_1A7E3C
+.text:001A7E34                 pop     edi
+.text:001A7E35                 xor     al, al
+.text:001A7E37                 pop     esi
+.text:001A7E38                 pop     ebp
+.text:001A7E39                 retn    8
+.text:001A7E3C ; ---------------------------------------------------------------------------
+.text:001A7E3C
+.text:001A7E3C loc_1A7E3C:                             ; CODE XREF: DecryptionFirstPass+12↑j
+.text:001A7E3C                 mov     edx, [ebp+arg_0]
+.text:001A7E3F                 mov     byte ptr [edi], 1
+.text:001A7E42                 push    ebx
+.text:001A7E43                 mov     bl, [edi+1]
+.text:001A7E46                 test    esi, esi
+.text:001A7E48                 jle     short loc_1A7E74
+.text:001A7E4A                 lea     ebx, [ebx+0]
+.text:001A7E50
+.text:001A7E50 loc_1A7E50:                             ; CODE XREF: DecryptionFirstPass+52↓j
+.text:001A7E50                 mov     al, [edx]
+.text:001A7E52                 test    al, al
+.text:001A7E54                 jz      short loc_1A7E6E
+.text:001A7E56                 movzx   eax, al
+.text:001A7E59                 mov     bl, [eax+edi+1]
+.text:001A7E5D                 dec     eax
+.text:001A7E5E                 js      short loc_1A7E6B
+.text:001A7E60
+.text:001A7E60 loc_1A7E60:                             ; CODE XREF: DecryptionFirstPass+49↓j
+.text:001A7E60                 mov     cl, [edi+eax+1]
+.text:001A7E64                 mov     [edi+eax+2], cl
+.text:001A7E68                 dec     eax
+.text:001A7E69                 jns     short loc_1A7E60
+.text:001A7E6B
+.text:001A7E6B loc_1A7E6B:                             ; CODE XREF: DecryptionFirstPass+3E↑j
+.text:001A7E6B                 mov     [edi+1], bl
+.text:001A7E6E
+.text:001A7E6E loc_1A7E6E:                             ; CODE XREF: DecryptionFirstPass+34↑j
+.text:001A7E6E                 mov     [edx], bl
+.text:001A7E70                 inc     edx
+.text:001A7E71                 dec     esi
+.text:001A7E72                 jnz     short loc_1A7E50
+.text:001A7E74
+.text:001A7E74 loc_1A7E74:                             ; CODE XREF: DecryptionFirstPass+28↑j
+.text:001A7E74                 mov     byte ptr [edi], 0
+.text:001A7E77                 pop     ebx
+.text:001A7E78
+.text:001A7E78 loc_1A7E78:                             ; CODE XREF: DecryptionFirstPass+D↑j
+.text:001A7E78                 pop     edi
+.text:001A7E79                 mov     al, 1
+.text:001A7E7B                 pop     esi
+.text:001A7E7C                 pop     ebp
+.text:001A7E7D                 retn    8
+.text:001A7E7D DecryptionFirstPass endp
