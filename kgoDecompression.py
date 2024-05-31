@@ -2,6 +2,7 @@ import sys
 import math
 
 def GetDecompressedByte(quotient):
+  global dbb1
   global dbb3
 
   magic = 3
